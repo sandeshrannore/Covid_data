@@ -32,7 +32,7 @@ const userSlice = createSlice({
       }
     },
     deleteUser: (state, action) => {
-      state.users = state.users.filter(user => user.id !== action.payload);
+      state.users = state.users.filter(user => user.firstName + user.lastName !== action.payload);
     },
   },
 });

@@ -24,11 +24,11 @@ const ContactsList: React.FC<{ user: UserProps }> = ({ user }) => {
   };
 
   const handleDeleteUser = () => {
-    dispatch(deleteUser(user.id)); // Use user.id instead of id parameter
+    dispatch(deleteUser(user.firstName + user.lastName)); // Use user.id instead of id parameter
   };
 
   return (
-    <div className='grid col-span-1 justify-center'>
+    <div className='grid col-span-1 justify-center h-min'>
       <div key={user.id} className="w-64 p-4 m-2 border rounded bg-white">
         <div className="mb-2">
           <strong>Name:</strong>
