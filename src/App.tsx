@@ -1,26 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// src/components/App.tsx
+import React, { useState } from 'react';
+import Appbar from './components/Appbar';
+import Sidebar from './components/Sidebar';
+import ContactPage from './pages/ContactPage';
+import MapPage from './pages/MapPage';
 
-function App() {
+enum Section {
+  Contacts = 'contacts',
+  Charts = 'charts', 
+}
+
+const App: React.FC = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [currentSection, setCurrentSection] = useState(Section.Contacts);
+
+  const handleMenuClick = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  const handleSidebarItemClick = (section: Section) => {
+    setCurrentSection(section);
+    if (sidebarOpen) {
+      setSidebarOpen(false);
+    }
+  };
+
+  let content;
+  if (currentSection === Section.Contacts) {
+    content = <ContactPage/>;
+  } else if (currentSection === Section.Charts) {
+    content = <MapPage/>;
+  }
+
+  let pageTitle = '';
+  if (currentSection === Section.Contacts) {
+    pageTitle = 'Contacts';
+  } else if (currentSection === Section.Charts) {
+    pageTitle = 'Charts and Maps';
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="flex flex-col h-screen w-full overflow-x-hidden">
+      <Appbar  title={pageTitle} onMenuClick={handleMenuClick}/>
+      <div className="flex-grow flex relative">
+        <Sidebar open={sidebarOpen} onItemClick={handleSidebarItemClick} />
+        <main className={`w-full transition-transform duration-300`}>
+          {content}
+        </main>
+      </div>
     </div>
   );
-}
+};
 
 export default App;
